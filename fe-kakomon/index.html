@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <title>基本情報技術者試験 練習アプリ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#" id="home-logo">
+        <span class="logo-mark">FE</span>
+        <span>基本情報技術者試験<br><small>過去問題</small></span>
+      </a>
+      <span class="header-tag">問題数 480問</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ホーム画面 -->
+    <section id="home-screen" class="screen">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">FE STUDY TRAINING</p>
+          <p class="hero-description">
+            年度別・科目別の問題に挑戦して、苦手分野を克服
+          </p>
+        </div>
+      </div>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <span class="stat-label">解答した問題</span>
+          <strong id="total-answered">0</strong>
+          <span class="stat-unit">問</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">正解数</span>
+          <strong id="total-correct">0</strong>
+          <span class="stat-unit">問</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">正答率</span>
+          <strong id="total-rate">0%</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">復習する問題</span>
+          <strong id="total-mistakes">0</strong>
+          <span class="stat-unit">問</span>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PRACTICE</p>
+            <h2>問題を選んで学習する</h2>
+          </div>
+        </div>
+
+        <div class="filter-grid">
+          <label class="field">
+            <span>年度</span>
+            <select id="year-select">
+              <option value="all">すべての年度</option>
+              <option value="2018">2018年度</option>
+              <option value="2019">2019年度</option>
+              <option value="2020">2020年度</option>
+              <option value="2021">2021年度</option>
+              <option value="2022">2022年度</option>
+              <option value="2023">2023年度</option>
+              <option value="2024">2024年度</option>
+              <option value="2025">2025年度</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>科目</span>
+            <select id="subject-select">
+              <option value="all">科目A・B両方</option>
+              <option value="A">科目A</option>
+              <option value="B">科目B</option>
+            </select>
+          </label>
+
+          <label class="field field-wide">
+            <span>分野</span>
+            <select id="category-select">
+              <option value="all">すべての分野</option>
+            </select>
+          </label>
+        </div>
+
+        <p id="available-count" class="available-count">出題できる問題：0問</p>
+
+        <button id="start-button" class="primary-button">
+          学習を開始する
+        </button>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">WEAK POINTS</p>
+            <h2>苦手分野をチェック</h2>
+          </div>
+        </div>
+        <p class="muted">
+          解答履歴から、正答率の低い分野を表示
+        </p>
+        <div id="weak-area" class="weak-area">
+          <p class="empty-message">まだ学習履歴がありません。まずは問題に挑戦</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">REVIEW</p>
+            <h2>間違えた問題</h2>
+          </div>
+        </div>
+        <p class="muted">
+          過去に間違えた問題をまとめて解き直す
+        </p>
+        <button id="home-review-button" class="secondary-button">
+          間違えた問題を復習する
+        </button>
+      </section>
+
+      <p id="data-status" class="data-status"></p>
+    </section>
+
+    <!-- 問題画面 -->
+    <section id="quiz-screen" class="screen hidden">
+      <div class="quiz-top">
+        <button id="quit-button" class="text-button">← ホームに戻る</button>
+        <span id="quiz-mode" class="mode-label">通常学習</span>
+      </div>
+
+      <div class="progress-info">
+        <span id="question-number">問題 1 / 30</span>
+        <span id="progress-percent">0%</span>
+      </div>
+      <div class="progress-track">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+
+      <article class="question-card">
+        <div class="question-meta">
+          <span id="question-year" class="question-tag">2025年度</span>
+          <span id="question-subject" class="question-tag">科目A</span>
+          <span id="question-category" class="question-tag">基礎理論</span>
+        </div>
+
+        <h2 id="question-text" class="question-text"></h2>
+
+        <div id="choices" class="choices"></div>
+
+        <div id="feedback" class="feedback hidden">
+          <h3 id="feedback-title"></h3>
+          <p id="feedback-explanation"></p>
+        </div>
+
+        <button id="next-button" class="primary-button hidden">
+          次の問題へ
+        </button>
+      </article>
+    </section>
+
+    <!-- 結果画面 -->
+    <section id="result-screen" class="screen hidden">
+      <div class="result-heading">
+        <p class="eyebrow">YOUR RESULT</p>
+        <h1>おつかれさま！</h1>
+        <p class="muted">今回の学習結果の確認</p>
+      </div>
+
+      <div class="result-score-card">
+        <span class="stat-label">今回の正答率</span>
+        <strong id="result-rate">0%</strong>
+        <p id="result-message">学習おつかれさまでした！</p>
+      </div>
+
+      <div class="result-stats">
+        <div>
+          <span>解答数</span>
+          <strong id="result-total">0問</strong>
+        </div>
+        <div>
+          <span>正解数</span>
+          <strong id="result-correct">0問</strong>
+        </div>
+        <div>
+          <span>不正解数</span>
+          <strong id="result-wrong">0問</strong>
+        </div>
+      </div>
+
+      <section class="panel">
+        <h2>間違えた問題</h2>
+        <div id="result-mistakes" class="mistake-list"></div>
+      </section>
+
+      <div class="result-actions">
+        <button id="result-review-button" class="secondary-button">
+          間違えた問題を復習する
+        </button>
+        <button id="home-button" class="primary-button">
+          ホームに戻る
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>基本情報技術者試験 学習トレーニング</p>
+    <p>学習データはこのブラウザに保存されます。</p>
+  </footer>
+
+  <!-- 問題データを先に読み込む -->
+  <script src="data/2018.js"></script>
+  <script src="data/2019.js"></script>
+  <script src="data/2020.js"></script>
+  <script src="data/2021.js"></script>
+  <script src="data/2022.js"></script>
+  <script src="data/2023.js"></script>
+  <script src="data/2024.js"></script>
+  <script src="data/2025.js"></script>
+
+  <!-- アプリ本体 -->
+  <script src="script.js"></script>
+</body>
+</html>
